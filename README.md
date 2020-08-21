@@ -1,6 +1,5 @@
 # poke-jump-part-1
 part 1 of  a little game i am coding
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -24,7 +23,7 @@ part 1 of  a little game i am coding
   
   center{
     position:absolute;
-    left: 345px;
+    left: 400px;
     top:10px
   }
   
@@ -99,10 +98,11 @@ part 1 of  a little game i am coding
   let isJumping = false;
   let isGoingLeft = false;
   let isGoingRight = false;
+  
    function move(e){
    if (isJumping) return;
    let timerId = setInterval(function (){
-   if(yPos < 530){
+   if(yPos < 320){
    clearInterval(timerId);
    let timerDownId = setInterval(function(){
     if(yPos > 570){
@@ -150,13 +150,21 @@ part 1 of  a little game i am coding
   
   }
   
+   var no = new Image();
+ no.src = "https://www.mariowiki.com/images/thumb/f/f4/MK7-Spiny-Shell.png/160px-MK7-Spiny-Shell.png"
+  
   var bg = new Image();
   bg.src = "https://i.pinimg.com/originals/b2/b0/84/b2b084ad6061dfe2122302266ea8af58.jpg";
+  
+  function shell(){
+  
+  }
   
   function background(){
    this.x = 0, this.y = 0, this.w = bg.width, this.h = bg.height;
    
- 
+   
+  
   
   this.render = function(){
   if(state.current == state.getReady || state.current == state.over){
