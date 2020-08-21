@@ -71,7 +71,7 @@ part 1 of  a little game i am coding
   
  // game state
  const state = {
- current : 2,
+ current : 0,
  getReady : 0,
  game : 1,
  over : 2
