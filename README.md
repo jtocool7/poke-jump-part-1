@@ -1,5 +1,4 @@
-# poke-jump-part-1
-part 1 of  a little game i am coding
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -61,7 +60,9 @@ part 1 of  a little game i am coding
   
   <img id="noice" class="hide" src="https://cdn.lowgif.com/medium/4220baabc77ff5c6-.gif" alt="pikachu sad sprite/pikachu loose sprite">
   
+  <img class="hide" id="nah" src="https://raw.githubusercontent.com/CodeExplainedRepo/FlappyBird-JavaScript/master/images/pipeSouth.png" alt="pipe">
   
+  <img id="yah" class="hide" src="https://www.mariowiki.com/images/thumb/f/f4/MK7-Spiny-Shell.png/160px-MK7-Spiny-Shell.png" alt="blue shell">
   
   <script>
   const cvs = document.getElementById('can');
@@ -94,7 +95,7 @@ part 1 of  a little game i am coding
   
   var xPos = 0;
   var yPos = 600;
-  let gravity = 0.9;
+  let gravity = 1;
   let isJumping = false;
   let isGoingLeft = false;
   let isGoingRight = false;
@@ -102,7 +103,7 @@ part 1 of  a little game i am coding
    function move(e){
    if (isJumping) return;
    let timerId = setInterval(function (){
-   if(yPos < 320){
+   if(yPos < 200){
    clearInterval(timerId);
    let timerDownId = setInterval(function(){
     if(yPos > 570){
@@ -110,21 +111,26 @@ part 1 of  a little game i am coding
    isJumping = false;
    }
    yPos += 5;
+  
    }, 20)
    }
    
-  if(e.keyCode === 38){
+  if(e.keyCode === 38) {
   isJumping = true;
    yPos -= 10;
    yPos = yPos * gravity;
+  xPos += 1.5;
    }
   },20)
+ 
   
-  
-   
    }
   
   document.onkeydown = move;
+  
+ 
+  
+  
   
   
   function drawStar(){
@@ -141,16 +147,12 @@ cxt.fillText("Press the replay button ", cvs.height/2-180, 35);
   }
   }
   
-  function draw(){
-  cxt.fillStyle = "#70c5ce";
-  cxt.fillRect(0, 0, cvs.width, cvs.height);
-  }
   
-  function update(){
- 
-  }
+  
+  
   
   function drawPika(){
+  this.radius = 12;
   if(isJumping ){
   const hi = document.getElementById('hi');
   cxt.drawImage(hi, xPos, yPos, 85, 80);
@@ -164,11 +166,22 @@ cxt.fillText("Press the replay button ", cvs.height/2-180, 35);
   cxt.drawImage(noice, xPos, yPos, 85,80);
   }
   
-  
+ if(xPos > 400){
+ if(isJumping) return;
+ xPos = 10;
+// state.current = state.over;
+  }
   }
   
-   var no = new Image();
- no.src = "https://www.mariowiki.com/images/thumb/f/f4/MK7-Spiny-Shell.png/160px-MK7-Spiny-Shell.png"
+  noise.radius = 12;
+  
+  function collision(){
+  if(xpos < 400){
+  state.current = state.over;
+  }
+  }
+ 
+ 
   
   var bg = new Image();
   bg.src = "https://i.pinimg.com/originals/b2/b0/84/b2b084ad6061dfe2122302266ea8af58.jpg";
@@ -187,6 +200,7 @@ cxt.fillText("Press the replay button ", cvs.height/2-180, 35);
   cxt.drawImage(nani,0,0);
   }
   if(state.current == state.game){
+  
   cxt.drawImage(bg, this.x--,0);
  if(this.x <= -23){
   this.x = 0;
@@ -209,6 +223,60 @@ cxt.fillText("Press the replay button ", cvs.height/2-180, 35);
   
   
   
+  
+  
+  
+  
+   const no = new Image();
+ no.src = "https://raw.githubusercontent.com/CodeExplainedRepo/FlappyBird-JavaScript/master/images/pipeSouth.png";
+ 
+ function pipes(){
+ this.x = 502, this.y = 0, this.w = no.width, this.h = no.height;
+ 
+ this.render = function(){
+ if(state.current == state.getReady || state.current == state.over){
+ cxt.drawImage(nah, 502,100);
+ }
+ if(state.current == state.game){
+
+ cxt.drawImage(no,this.x-- ,500);
+ if(this.x <= -50){
+ this.x = 502;
+ }
+ 
+ }
+ }
+ 
+ }
+  
+  //let
+   
+  var pipes = new pipes();
+  
+  
+  
+  const yes = new Image();
+  yes.src = "https://www.mariowiki.com/images/thumb/f/f4/MK7-Spiny-Shell.png/160px-MK7-Spiny-Shell.png";
+  
+ function shell(){
+  this.x = 730, this.y = 0, this.w = 50, this.h = yes.height;
+  
+  this.render = function(){
+  if(state.current == state.getReady || state.current == state.over){
+  cxt.drawImage(yah, 600, 0);
+  }
+  if(state.current == state.game){
+  cxt.drawImage(yes, this.x-- , 620, 50, 50);
+  if(this.x <= -50){
+  this.x = 502;
+  }
+  }
+  }
+ 
+  }
+  
+  var shell = new shell();
+  
    function drawStart(){
    if(state.current == state.getReady){
      const start = document.getElementById('start');
@@ -217,13 +285,21 @@ cxt.fillText("Press the replay button ", cvs.height/2-180, 35);
    }
   }
   
+ function draw(){
+  cxt.fillStyle = "#70c5ce";
+  cxt.fillRect(0, 0, cvs.width, cvs.height);
  
+  }
   
  function drawRe(){
   if(state.current == state.over){
   const re = document.getElementById("re");
   cxt.drawImage(re, cvs.height/2-210, cvs.width/2);
   }
+  
+  }
+  
+  function update(){
   
   }
   
@@ -238,14 +314,15 @@ cxt.fillText("Press the replay button ", cvs.height/2-180, 35);
   requestAnimationFrame(loop);
  
   background.render();
+  pipes.render();
  
 drawStar();
  drawStart();
  drawRe();
  
- 
+shell.render();
  drawPika();
-  
+ 
   }
   
   
